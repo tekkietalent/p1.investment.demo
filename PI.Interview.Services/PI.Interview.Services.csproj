@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\P1.Interview.Domain\P1.Interview.Domain.csproj" />
+    <ProjectReference Include="..\PI.Interview.Repository\PI.Interview.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

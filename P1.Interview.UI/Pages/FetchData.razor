@@ -1,12 +1,14 @@
 ﻿@page "/fetchdata"
 @inject HttpClient Http
-@using System.Net.Http.Headers
+@inject PI.Interview.Services.IPortfolioService PortfolioService
 
+@using P1.Interview.Domain
+ 
 <h1>P1 Investment Interview Demo</h1>
 
 <p>This component renders some portfolios...</p>
 
-@if (portfolios == null)
+@if (portfolioAggregate == null)
 {
     <p><em>Loading portfolios...</em></p>
 }
@@ -22,7 +24,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var portfolio in portfolios)
+            @foreach (var portfolio in portfolioAggregate.Portfolios)
             {
                 <tr>
                     <td>@portfolio.Id</td>
@@ -32,82 +34,20 @@ else
                 </tr>
             }
         </tbody>
+        <tfoot>
+            <tr>
+                <td>Aggregate Value: @portfolioAggregate.AggregateValue</td>
+            </tr>
+        </tfoot>
     </table>
 }
 
 @code {
-    private Portfolio[] portfolios;
+    private PortfolioAggregate portfolioAggregate;
 
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            var authRequest = new AuthRequest
-            {
-                FirmId = "P1IMX",
-                Id = "029B3GF",
-                Password = "7Qzq7low29"
-            };
-
-            var authResponse = await Http.PostAsJsonAsync<AuthRequest>("https://pfolio-api-staging.seccl.tech/authenticate",
-                authRequest);
-
-            var token = await authResponse.Content.ReadFromJsonAsync<DataRoot<AuthToken>>();
-
-            var request = new HttpRequestMessage(HttpMethod.Get,
-                new Uri($"https://pfolio-api-staging.seccl.tech/portfolio/{authRequest.FirmId}"));
-
-            request.Headers.Add("api-token", token.Data.Token);
-
-            var portfolioResponse = await Http.SendAsync(request);
-
-            var stringData = await portfolioResponse.Content.ReadAsStringAsync();
-            var responeData = await portfolioResponse.Content.ReadFromJsonAsync<DataRoot<Portfolio[]>>();
-
-            var portfolios = responeData.Data;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-        }
-
-
-
-    }
-
-    public class Portfolio
-    {
-        public int Id { get; set; }
-
-        public string Name { get; set; }
-
-        public string Currency { get; set; }
-
-        public double CurrencyValue { get; set; }
-
-        public double UninvestedCash { get; set; }
-
-        public double Growth { get; set; }
-
-        public double GrowthPercent { get; set; }
-    }
-
-    class DataRoot<T>
-    {
-        public T Data { get; set; }
-    }
-
-    public class AuthToken
-    {
-        public string Token { get; set; }
-        public string Username { get; set; }
-    }
-
-    public class AuthRequest
-    {
-        public string FirmId { get; set; }
-        public string Id { get; set; }
-        public string Password { get; set; }
+        portfolioAggregate = await PortfolioService.GetThreeRandomPortfolios();
     }
 }
 
