@@ -10,6 +10,6 @@ namespace P1.Interview.Domain
     {
         public List<Portfolio> Portfolios { get; set; }
 
-        public double AggregateValue { get; set; }
+        public decimal AggregateValue { get; set; }
     }
 }

@@ -6,7 +6,7 @@
  
 <h1>P1 Investment Interview Demo</h1>
 
-<p>This component renders some portfolios...</p>
+<p>Random 3 portfolios...</p>
 
 @if (portfolioAggregate == null)
 {
@@ -30,7 +30,7 @@ else
                     <td>@portfolio.Id</td>
                     <td>@portfolio.Name</td>
                     <td>@portfolio.Currency</td>
-                    <td>@portfolio.CurrencyValue</td>
+                    <td>@portfolio.CurrentValue</td>
                 </tr>
             }
         </tbody>
@@ -50,4 +50,3 @@ else
         portfolioAggregate = await PortfolioService.GetThreeRandomPortfolios();
     }
 }
-

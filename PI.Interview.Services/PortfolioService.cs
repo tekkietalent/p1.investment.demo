@@ -1,6 +1,6 @@
 ﻿using P1.Interview.Domain;
 using PI.Interview.Repository;
-using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,8 +19,12 @@ namespace PI.Interview.Services
         {
             var listOfPortfolios = await _portfolioRepository.GetPortfoliosForFirm();
 
-            var listOfThreePortfolios = listOfPortfolios.Take(3).ToList();
-            var sumOfPortfolioValues = listOfThreePortfolios.Sum(p => p.CurrencyValue);
+            var listOfThreePortfolios = listOfPortfolios
+                .OrderBy(x => Guid.NewGuid())
+                .Take(3)
+                .ToList();
+
+            var sumOfPortfolioValues = listOfThreePortfolios.Sum(p => p.CurrentValue);
 
             return new PortfolioAggregate
             {
