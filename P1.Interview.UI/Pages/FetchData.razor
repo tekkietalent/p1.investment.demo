@@ -1,33 +1,34 @@
 ﻿@page "/fetchdata"
 @inject HttpClient Http
+@using System.Net.Http.Headers
 
-<h1>Weather forecast</h1>
+<h1>P1 Investment Interview Demo</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
+<p>This component renders some portfolios...</p>
 
-@if (forecasts == null)
+@if (portfolios == null)
 {
-    <p><em>Loading...</em></p>
+    <p><em>Loading portfolios...</em></p>
 }
 else
 {
     <table class="table">
         <thead>
             <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
+                <th>Portfolio Id</th>
+                <th>Name</th>
+                <th>Currency</th>
+                <th>Value</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var forecast in forecasts)
+            @foreach (var portfolio in portfolios)
             {
                 <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
+                    <td>@portfolio.Id</td>
+                    <td>@portfolio.Name</td>
+                    <td>@portfolio.Currency</td>
+                    <td>@portfolio.CurrencyValue</td>
                 </tr>
             }
         </tbody>
@@ -35,21 +36,78 @@ else
 }
 
 @code {
-    private WeatherForecast[] forecasts;
+    private Portfolio[] portfolios;
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+        try
+        {
+            var authRequest = new AuthRequest
+            {
+                FirmId = "P1IMX",
+                Id = "029B3GF",
+                Password = "7Qzq7low29"
+            };
+
+            var authResponse = await Http.PostAsJsonAsync<AuthRequest>("https://pfolio-api-staging.seccl.tech/authenticate",
+                authRequest);
+
+            var token = await authResponse.Content.ReadFromJsonAsync<DataRoot<AuthToken>>();
+
+            var request = new HttpRequestMessage(HttpMethod.Get,
+                new Uri($"https://pfolio-api-staging.seccl.tech/portfolio/{authRequest.FirmId}"));
+
+            request.Headers.Add("api-token", token.Data.Token);
+
+            var portfolioResponse = await Http.SendAsync(request);
+
+            var stringData = await portfolioResponse.Content.ReadAsStringAsync();
+            var responeData = await portfolioResponse.Content.ReadFromJsonAsync<DataRoot<Portfolio[]>>();
+
+            var portfolios = responeData.Data;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+
+
+
     }
 
-    public class WeatherForecast
+    public class Portfolio
     {
-        public DateTime Date { get; set; }
+        public int Id { get; set; }
 
-        public int TemperatureC { get; set; }
+        public string Name { get; set; }
 
-        public string Summary { get; set; }
+        public string Currency { get; set; }
 
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+        public double CurrencyValue { get; set; }
+
+        public double UninvestedCash { get; set; }
+
+        public double Growth { get; set; }
+
+        public double GrowthPercent { get; set; }
+    }
+
+    class DataRoot<T>
+    {
+        public T Data { get; set; }
+    }
+
+    public class AuthToken
+    {
+        public string Token { get; set; }
+        public string Username { get; set; }
+    }
+
+    public class AuthRequest
+    {
+        public string FirmId { get; set; }
+        public string Id { get; set; }
+        public string Password { get; set; }
     }
 }
+
