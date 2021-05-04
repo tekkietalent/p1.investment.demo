@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace P1.Interview.Domain
 {
-    public class PortfolioAggregate
+    public class PortfolioAggregate : BaseEntity
     {
         public List<Portfolio> Portfolios { get; set; }
 
