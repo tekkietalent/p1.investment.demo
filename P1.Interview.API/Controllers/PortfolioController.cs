@@ -1,14 +1,7 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using P1.Interview.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using PI.Interview.Services.Features.Queries;
+using PI.Interview.Services;
 
 namespace P1.Interview.API.Controllers
 {
@@ -16,25 +9,24 @@ namespace P1.Interview.API.Controllers
     [Route("[controller]")]
     public class PortfolioController : ControllerBase
     {
-        private IMediator _mediator;
-        private IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
-
+        private readonly IPortfolioService _portfolioService;
         private readonly ILogger<PortfolioController> _logger;
 
-        public PortfolioController(ILogger<PortfolioController> logger)
+        public PortfolioController(IPortfolioService portfolioService,
+            ILogger<PortfolioController> logger)
         {
+            _portfolioService = portfolioService;
             _logger = logger;
         }
 
         /// <summary>
-        /// Gets all firm related portfolios.
+        /// Gets three random firm related portfolios.
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetSample()
         {
-            return Ok(await Mediator.Send(
-                new GetAllFirmPortfoliosQuery()));
+            return Ok(await _portfolioService.GetThreeRandomPortfolios());
         }
     }
 }

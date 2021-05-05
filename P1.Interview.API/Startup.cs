@@ -1,15 +1,15 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using PI.Interview.Services;
+using PI.Interview.Repository;
+using System.Net.Http;
+using P1.Interview.Infrastructure;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using P1.Interview.Infrastructure.Services;
 
 namespace P1.Interview.API
 {
@@ -30,6 +30,18 @@ namespace P1.Interview.API
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "P1.Interview.API", Version = "v1" });
+            });
+
+            services.AddSingleton<IPortfolioService, PortfolioService>();
+            services.AddSingleton<IPortfolioRepository, PortfolioRepository>();
+
+            var secclAuthOptions = Configuration.GetSection("SecclAuth").Get<AuthRequest>();
+
+            services.AddSingleton<ISecclTokenProvider>(new SecclTokenProvider(secclAuthOptions));
+
+            services.AddHttpClient<ISecclHttpClient, SecclHttpClient>(h =>
+            {
+                h.BaseAddress = new Uri("https://pfolio-api-staging.seccl.tech/");
             });
         }
 
