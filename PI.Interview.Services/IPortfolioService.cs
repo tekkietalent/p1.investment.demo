@@ -5,6 +5,6 @@ namespace PI.Interview.Services
 {
     public interface IPortfolioService
     {
-        public Task<PortfolioAggregate> GetThreeRandomPortfolios();
+        public Task<PortfolioAggregate> GetNRandomPortfolios(int numberToRetrieve);
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
@@ -31,7 +30,9 @@ namespace P1.Interview.Infrastructure.Services
             return responseData.Data;
         }
 
-        private static HttpRequestMessage BuildRequestUsingAuthToken(AuthRequest authRequest, AuthToken token, string entityName)
+        private static HttpRequestMessage BuildRequestUsingAuthToken(AuthRequest authRequest, 
+            AuthToken token, 
+            string entityName)
         {
             var request = new HttpRequestMessage(HttpMethod.Get,
                                 $"{entityName}/{authRequest.FirmId}");

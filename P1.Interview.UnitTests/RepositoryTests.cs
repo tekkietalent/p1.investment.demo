@@ -9,6 +9,7 @@ namespace P1.Interview.UnitTests
 {
     public class RepositoryTests
     {
+        [Fact]
         public async void Test_That_Portfolio_Repository_Returns_List()
         {
             var secclClientMock = new Mock<ISecclHttpClient>();
@@ -18,7 +19,7 @@ namespace P1.Interview.UnitTests
 
             var sut = new PortfolioRepository(secclClientMock.Object);
 
-            var result = sut.GetPortfoliosForFirm();
+            var result = await sut.GetPortfoliosForFirm();
 
             Assert.NotNull(result);
 

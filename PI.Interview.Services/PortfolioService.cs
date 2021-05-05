@@ -15,20 +15,20 @@ namespace PI.Interview.Services
             _portfolioRepository = portfolioRepository;
         }
 
-        public async Task<PortfolioAggregate> GetThreeRandomPortfolios()
+        public async Task<PortfolioAggregate> GetNRandomPortfolios(int numberToRetrieve)
         {
             var listOfPortfolios = await _portfolioRepository.GetPortfoliosForFirm();
 
-            var listOfThreePortfolios = listOfPortfolios
+            var listOfNPortfolios = listOfPortfolios
                 .OrderBy(x => Guid.NewGuid())
-                .Take(3)
+                .Take(numberToRetrieve)
                 .ToList();
 
-            var sumOfPortfolioValues = listOfThreePortfolios.Sum(p => p.CurrentValue);
+            var sumOfPortfolioValues = listOfNPortfolios.Sum(p => p.CurrentValue);
 
             return new PortfolioAggregate
             {
-                Portfolios = listOfThreePortfolios,
+                Portfolios = listOfNPortfolios,
                 AggregateValue = sumOfPortfolioValues
             };
         }

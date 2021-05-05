@@ -8,6 +8,7 @@ namespace P1.Interview.UnitTests
 {
     public class ServiceTests
     {
+        [Fact]
         public async void Test_That_Portfolio_Service_Returns_List_Of_Three()
         {
             var repoMock = new Mock<IPortfolioRepository>();
@@ -18,7 +19,7 @@ namespace P1.Interview.UnitTests
 
             var sut = new PortfolioService(repoMock.Object);
 
-            var result = await sut.GetThreeRandomPortfolios();
+            var result = await sut.GetNRandomPortfolios(3);
 
             Assert.NotNull(result);
             Assert.IsType<PortfolioAggregate>(result);

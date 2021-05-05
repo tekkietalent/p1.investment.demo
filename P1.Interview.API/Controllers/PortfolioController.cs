@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using PI.Interview.Services;
 
@@ -10,7 +9,6 @@ namespace P1.Interview.API.Controllers
     public class PortfolioController : ControllerBase
     {
         private readonly IPortfolioService _portfolioService;
-        private readonly ILogger<PortfolioController> _logger;
 
         public PortfolioController(IPortfolioService portfolioService)
         {
@@ -18,13 +16,14 @@ namespace P1.Interview.API.Controllers
         }
 
         /// <summary>
-        /// Gets three random firm related portfolios.
+        /// Gets N random firm related portfolios.
         /// </summary>
+        /// <param name="sampleSize"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetSample()
+        public async Task<IActionResult> GetSample(int sampleSize)
         {
-            return Ok(await _portfolioService.GetThreeRandomPortfolios());
+            return Ok(await _portfolioService.GetNRandomPortfolios(sampleSize));
         }
     }
 }

@@ -3,6 +3,8 @@
     public class Portfolio : BaseEntity
     {
         public string FirmId { get; set; }
+        public string[] NodeId { get; set; }
+        public string[] NodeName { get; set; }
         public string Status { get; set; }
         public int Accounts { get; set; }
         public string Name { get; set; }
