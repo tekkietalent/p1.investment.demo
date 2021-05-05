@@ -1,59 +1,30 @@
 ﻿using Moq;
+using P1.Interview.Domain;
+using P1.Interview.Infrastructure.Services;
+using PI.Interview.Repository;
 using System;
-using System.Net.Http;
-using System.Threading.Tasks;
+using Xunit;
 
 namespace P1.Interview.UnitTests
 {
     public class RepositoryTests
     {
-        public void Test_That_RepositoryReturns_Correct_List()
+        public async void Test_That_Portfolio_Repository_Returns_List()
         {
-            //var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
-            //handlerMock
-            //   .Protected()
-            //   // Setup the PROTECTED method to mock
-            //   .Setup<Task<HttpResponseMessage>>(
-            //      "SendAsync",
-            //      ItExpr.IsAny<HttpRequestMessage>(),
-            //      ItExpr.IsAny<CancellationToken>()
-            //   )
-            //   // prepare the expected response of the mocked http call
-            //   .ReturnsAsync(new HttpResponseMessage()
-            //   {
-            //       StatusCode = HttpStatusCode.OK,
-            //       Content = new StringContent("[{'id':1,'value':'1'}]"),
-            //   })
-            //   .Verifiable();
+            var secclClientMock = new Mock<ISecclHttpClient>();
+            secclClientMock
+                .Setup(s => s.GetEntityData<Portfolio[]>("Portfolio"))
+                .ReturnsAsync(Array.Empty<Portfolio>());
 
-            //// use real http client with mocked handler here
-            //var httpClient = new HttpClient(handlerMock.Object)
-            //{
-            //    BaseAddress = new Uri("http://test.com/"),
-            //};
+            var sut = new PortfolioRepository(secclClientMock.Object);
 
-            //var subjectUnderTest = new MyTestClass(httpClient);
+            var result = sut.GetPortfoliosForFirm();
 
-            //// ACT
-            //var result = await subjectUnderTest
-            //   .GetSomethingRemoteAsync('api/test/whatever');
+            Assert.NotNull(result);
 
-            //// ASSERT
-            //result.Should().NotBeNull(); // this is fluent assertions here...
-            //result.Id.Should().Be(1);
-
-            //// also check the 'http' call was like we expected it
-            //var expectedUri = new Uri("http://test.com/api/test/whatever");
-
-            //handlerMock.Protected().Verify(
-            //   "SendAsync",
-            //   Times.Exactly(1), // we expected a single external request
-            //   ItExpr.Is<HttpRequestMessage>(req =>
-            //      req.Method == HttpMethod.Get  // we expected a GET request
-            //      && req.RequestUri == expectedUri // to this uri
-            //   ),
-            //   ItExpr.IsAny<CancellationToken>()
-            //);
+            secclClientMock
+                .Verify(s => s.GetEntityData<Portfolio[]>("Portfolio"), 
+                Times.Once);
         }
     }
 }

@@ -32,8 +32,8 @@ namespace P1.Interview.API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "P1.Interview.API", Version = "v1" });
             });
 
-            services.AddSingleton<IPortfolioService, PortfolioService>();
-            services.AddSingleton<IPortfolioRepository, PortfolioRepository>();
+            services.AddSingleton<IPortfolioService, PI.Interview.Services.PortfolioService>();
+            services.AddSingleton<IPortfolioRepository, PI.Interview.Repository.PortfolioRepository>();
 
             var secclAuthOptions = Configuration.GetSection("SecclAuth").Get<AuthRequest>();
 

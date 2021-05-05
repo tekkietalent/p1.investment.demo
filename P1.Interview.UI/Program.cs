@@ -18,8 +18,8 @@ namespace P1.Interview.UI
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-            builder.Services.AddScoped<IPortfolioService, PortfolioService>();
-            builder.Services.AddScoped<IPortfolioRepository, PortfolioRepository>();
+            builder.Services.AddScoped<IPortfolioService, PI.Interview.Services.PortfolioService>();
+            builder.Services.AddScoped<IPortfolioRepository, PI.Interview.Repository.PortfolioRepository>();
 
             builder.Services.AddMediatR(typeof(Program));
 

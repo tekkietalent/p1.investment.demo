@@ -1,9 +1,6 @@
 ﻿using P1.Interview.Domain;
-using P1.Interview.Infrastructure;
 using P1.Interview.Infrastructure.Services;
 using System;
-using System.Net.Http;
-using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace PI.Interview.Repository

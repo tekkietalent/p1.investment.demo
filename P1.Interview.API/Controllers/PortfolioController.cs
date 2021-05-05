@@ -12,11 +12,9 @@ namespace P1.Interview.API.Controllers
         private readonly IPortfolioService _portfolioService;
         private readonly ILogger<PortfolioController> _logger;
 
-        public PortfolioController(IPortfolioService portfolioService,
-            ILogger<PortfolioController> logger)
+        public PortfolioController(IPortfolioService portfolioService)
         {
             _portfolioService = portfolioService;
-            _logger = logger;
         }
 
         /// <summary>

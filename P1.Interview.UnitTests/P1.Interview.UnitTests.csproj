@@ -9,4 +9,11 @@
     <PackageReference Include="xunit" Version="2.4.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\P1.Interview.API\P1.Interview.API.csproj" />
+    <ProjectReference Include="..\P1.Interview.Infrastructure\P1.Interview.Infrastructure.csproj" />
+    <ProjectReference Include="..\PI.Interview.Repository\PI.Interview.Repository.csproj" />
+    <ProjectReference Include="..\PI.Interview.Services\PI.Interview.Services.csproj" />
+  </ItemGroup>
+
 </Project>
