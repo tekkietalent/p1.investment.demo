@@ -5,7 +5,7 @@
  
 <h1>P1 Investment Interview Demo</h1>
 
-<p>Random 3 portfolios...</p>
+<p>Random N portfolios...</p>
 
 @if (portfolioAggregate == null)
 {
@@ -17,9 +17,14 @@ else
         <thead>
             <tr>
                 <th>Portfolio Id</th>
+                <th>Status</th>
+                <th>No. Accounts</th>
                 <th>Name</th>
                 <th>Currency</th>
                 <th>Value</th>
+                <th>Uninvested Cash</th>
+                <th>Growth</th>
+                <th>Growth Percent</th>
             </tr>
         </thead>
         <tbody>
@@ -27,9 +32,14 @@ else
             {
                 <tr>
                     <td>@portfolio.Id</td>
+                    <td>@portfolio.Status</td>
+                    <td>@portfolio.Accounts</td>
                     <td>@portfolio.Name</td>
                     <td>@portfolio.Currency</td>
                     <td>@portfolio.CurrentValue</td>
+                    <td>@portfolio.UninvestedCash</td>
+                    <td>@portfolio.Growth</td>
+                    <td>@portfolio.GrowthPercent</td>
                 </tr>
             }
         </tbody>
@@ -46,6 +56,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        portfolioAggregate = await PortfolioService.GetThreeRandomPortfolios();
+        portfolioAggregate = await Http.GetFromJsonAsync<PortfolioAggregate>("/Portfolio?sampleSize=3");
     }
 }

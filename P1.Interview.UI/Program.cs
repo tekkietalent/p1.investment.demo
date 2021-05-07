@@ -16,10 +16,10 @@ namespace P1.Interview.UI
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:45952") });
 
-            builder.Services.AddScoped<IPortfolioService, PI.Interview.Services.PortfolioService>();
-            builder.Services.AddScoped<IPortfolioRepository, PI.Interview.Repository.PortfolioRepository>();
+            builder.Services.AddScoped<IPortfolioService, PortfolioService>();
+            builder.Services.AddScoped<IPortfolioRepository, PortfolioRepository>();
 
             builder.Services.AddMediatR(typeof(Program));
 

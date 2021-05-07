@@ -1,5 +1,7 @@
-﻿using Moq;
+﻿using Microsoft.AspNetCore.Mvc;
+using Moq;
 using P1.Interview.API.Controllers;
+using P1.Interview.Domain;
 using PI.Interview.Services;
 using Xunit;
 
@@ -12,14 +14,15 @@ namespace P1.Interview.UnitTests
         {
             var serviceMock = new Mock<IPortfolioService>();
             serviceMock
-                .Setup(s => s.GetNRandomPortfolios(3))
-                .ReturnsAsync(new Domain.PortfolioAggregate());
+                .Setup(s => s.GetNRandomPortfolios(It.IsAny<int>()))
+                .ReturnsAsync(new PortfolioAggregate());
 
             var sut = new PortfolioController(serviceMock.Object);
 
-            var result = await sut.GetSample(3);
+            var result = await sut.GetSample(10);
 
             Assert.NotNull(result);
+            Assert.IsType<ActionResult<PortfolioAggregate>>(result);
 
             serviceMock
                 .Verify(s => s.GetNRandomPortfolios(It.IsAny<int>()),

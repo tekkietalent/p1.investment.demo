@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using PI.Interview.Services;
+using P1.Interview.Domain;
 
 namespace P1.Interview.API.Controllers
 {
@@ -21,7 +22,7 @@ namespace P1.Interview.API.Controllers
         /// <param name="sampleSize"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetSample(int sampleSize)
+        public async Task<ActionResult<PortfolioAggregate>> GetSample(int sampleSize)
         {
             return Ok(await _portfolioService.GetNRandomPortfolios(sampleSize));
         }
