@@ -1,19 +1,21 @@
 #Introduction
 
-For the purposes of this exercise I have implemented a simple N-Tier approach for the architecture.
+For the purposes of this exercise I have implemented an N-Tier approach for the architecture with a separate Unit Tests project that has some basic tests for each layer.
 
-I was interested in having a play with Microsofts new [Blazor] (https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor) technology (think Angular but for dot net developers) therefore the UI has been built using that.
+I was interested in having a play with Microsofts new [Blazor] (https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor) technology (think Angular but for dot net developers) therefore a very basic UI has been built using that.
 
-Dependency Injection is used to inject the Service into the Blazor App, and the Repo into the service. The domain object are simply shared across layers.
+Dependency Injection is used to inject the Business Logic Service into the Web API project Controller layer, and the Repository into the Service Layer, and the HttpClient access into the Repository layer, following Clean Architecture principles with the dependencies only flowing one way.
 
-I also put the logic underneath a Web API which can be run independently of the UI (see swagger link). 
+For simplicity, the domain objects are simply shared across layers.
 
 #To Run
 
 To run the solution locally, just clone down the repo and use the Develop branch.
 
-Load the solution into Visual Studio 2019 and run the P1.Interview.UI project.
+Load the solution into Visual Studio 2019 and run the solution. You will get the APi project launch and a Swagger explorer window open where you can directly call the api, and the UI window which demonstrates a decoupled UI that can also be used to query the UI.
 
-I've also published the website [here]()
+#To Do
 
-Swagger link [here]()
+Refine the query to the service so we don't pull back all of the portfolios each time, or cache them.
+
+Write some more unit tests to improve coverage.
