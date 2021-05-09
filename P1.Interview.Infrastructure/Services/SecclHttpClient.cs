@@ -16,6 +16,12 @@ namespace P1.Interview.Infrastructure.Services
             _httpClient = httpClient;
         }
 
+        /// <summary>
+        /// A generic method to return a type T from the API service.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="entityName"></param>
+        /// <returns></returns>
         public async Task<T> GetEntityData<T>(string entityName)
         {
             var token = await _secclTokenProvider.GetTokenAsync(_httpClient);
@@ -30,6 +36,13 @@ namespace P1.Interview.Infrastructure.Services
             return responseData.Data;
         }
 
+        /// <summary>
+        /// Construct the Http Request with the necessary token for authentication with SECCL.
+        /// </summary>
+        /// <param name="authRequest"></param>
+        /// <param name="token"></param>
+        /// <param name="entityName"></param>
+        /// <returns></returns>
         private static HttpRequestMessage BuildRequestUsingAuthToken(AuthRequest authRequest, 
             AuthToken token, 
             string entityName)

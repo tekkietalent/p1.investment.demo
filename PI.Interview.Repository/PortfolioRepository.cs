@@ -14,6 +14,10 @@ namespace PI.Interview.Repository
             _httpClient = httpClient;
         }
 
+        /// <summary>
+        /// Get all portfolios for the firm.
+        /// </summary>
+        /// <returns></returns>
         public async Task<Portfolio[]> GetPortfoliosForFirm()
         {
             try

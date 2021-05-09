@@ -19,7 +19,7 @@ namespace P1.Interview.UnitTests
 
             var sut = new PortfolioController(serviceMock.Object);
 
-            var result = await sut.GetSample(10);
+            var result = await sut.GetRandomPortfoliosAsync(10);
 
             Assert.NotNull(result);
             Assert.IsType<ActionResult<PortfolioAggregate>>(result);

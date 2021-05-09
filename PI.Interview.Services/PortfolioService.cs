@@ -15,6 +15,11 @@ namespace PI.Interview.Services
             _portfolioRepository = portfolioRepository;
         }
 
+        /// <summary>
+        /// Returns a list of N portfolios in random order from the Repository.
+        /// </summary>
+        /// <param name="numberToRetrieve">Number of portfolios to retrieve</param>
+        /// <returns></returns>
         public async Task<PortfolioAggregate> GetNRandomPortfolios(int numberToRetrieve)
         {
             var listOfPortfolios = await _portfolioRepository.GetPortfoliosForFirm();
