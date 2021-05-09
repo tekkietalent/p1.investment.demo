@@ -2,6 +2,7 @@
 @inject HttpClient Http
 
 @using P1.Interview.Domain
+ @using System.Text.Json;
  
 <h1>P1 Investment Interview Demo</h1>
 
@@ -9,7 +10,10 @@
 
 @if (portfolioAggregate == null)
 {
-    <p><em>Loading portfolios...</em></p>
+    <p><em>How many random portfolios would you like to retrieve?</em></p>
+    <p><input type="text" @bind="Samples"/></p>
+    <h3>dsdsd</h3>
+    <p><button @onclick="LoadPortfolios">Load portfolios</button></p>
 }
 else
 {
@@ -52,10 +56,32 @@ else
 }
 
 @code {
-    private PortfolioAggregate portfolioAggregate;
+    [Parameter]
+    public string Samples { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    [Parameter]
+    public PortfolioAggregate portfolioAggregate { get; set; }
+
+    private async Task LoadPortfolios()
     {
-        portfolioAggregate = await Http.GetFromJsonAsync<PortfolioAggregate>("/Portfolio?sampleSize=3");
+        try
+        {
+            var httpResponse = await Http.GetAsync($"/Portfolio?sampleSize={Samples}");
+            if (!httpResponse.IsSuccessStatusCode)
+            {
+                // set error message for display, log to console and return
+                var errorMessage = httpResponse.ReasonPhrase;
+                Console.WriteLine($"There was an error! {errorMessage}");
+                return;
+            }
+
+            var responseContent = await httpResponse.Content.ReadAsStreamAsync();
+            portfolioAggregate = await JsonSerializer.DeserializeAsync<PortfolioAggregate>(responseContent);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"There was an error! {e.Message}");
+        }
+
     }
 }
