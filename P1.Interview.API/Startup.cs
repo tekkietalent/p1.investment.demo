@@ -6,7 +6,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using PI.Interview.Services;
 using PI.Interview.Repository;
-using System.Net.Http;
 using P1.Interview.Infrastructure;
 using System;
 using P1.Interview.Infrastructure.Services;
@@ -32,8 +31,10 @@ namespace P1.Interview.API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "P1.Interview.API", Version = "v1" });
             });
 
-            services.AddSingleton<IPortfolioService, PI.Interview.Services.PortfolioService>();
-            services.AddSingleton<IPortfolioRepository, PI.Interview.Repository.PortfolioRepository>();
+            services.AddCors();
+
+            services.AddSingleton<IPortfolioService, PortfolioService>();
+            services.AddSingleton<IPortfolioRepository, PortfolioRepository>();
 
             var secclAuthOptions = Configuration.GetSection("SecclAuth").Get<AuthRequest>();
 
@@ -58,6 +59,14 @@ namespace P1.Interview.API
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors(builder =>
+            {
+                builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            });
 
             app.UseEndpoints(endpoints =>
             {

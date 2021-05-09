@@ -22,9 +22,12 @@ namespace P1.Interview.API.Controllers
         /// <param name="sampleSize"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<PortfolioAggregate>> GetSample(int sampleSize)
+        [Route("GetRandomPortfolios")]
+        public async Task<PortfolioAggregate> GetRandomPortfoliosAsync(int sampleSize)
         {
-            return Ok(await _portfolioService.GetNRandomPortfolios(sampleSize));
+            var result = await _portfolioService.GetNRandomPortfolios(sampleSize);
+
+            return result;
         }
     }
 }

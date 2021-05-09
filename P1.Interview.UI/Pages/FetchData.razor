@@ -2,20 +2,18 @@
 @inject HttpClient Http
 
 @using P1.Interview.Domain
- @using System.Text.Json;
- 
+@using System.Text.Json;
+
 <h1>P1 Investment Interview Demo</h1>
 
 <p>Random N portfolios...</p>
 
-@if (portfolioAggregate == null)
-{
-    <p><em>How many random portfolios would you like to retrieve?</em></p>
-    <p><input type="text" @bind="Samples"/></p>
-    <h3>dsdsd</h3>
-    <p><button @onclick="LoadPortfolios">Load portfolios</button></p>
-}
-else
+
+<p><em>How many random portfolios would you like to retrieve?</em></p>
+<p><input type="text" @bind="Samples" disabled="@IsLoading" /></p>
+<p><button @onclick="LoadPortfolios" disabled="@IsLoading">Load portfolios</button></p>
+
+@if (portfolioAggregate != null)
 {
     <table class="table">
         <thead>
@@ -60,28 +58,24 @@ else
     public string Samples { get; set; }
 
     [Parameter]
+    public bool IsLoading { get; set; }
+
+    [Parameter]
     public PortfolioAggregate portfolioAggregate { get; set; }
 
     private async Task LoadPortfolios()
     {
+        IsLoading = true;
+
         try
         {
-            var httpResponse = await Http.GetAsync($"/Portfolio?sampleSize={Samples}");
-            if (!httpResponse.IsSuccessStatusCode)
-            {
-                // set error message for display, log to console and return
-                var errorMessage = httpResponse.ReasonPhrase;
-                Console.WriteLine($"There was an error! {errorMessage}");
-                return;
-            }
-
-            var responseContent = await httpResponse.Content.ReadAsStreamAsync();
-            portfolioAggregate = await JsonSerializer.DeserializeAsync<PortfolioAggregate>(responseContent);
+            portfolioAggregate = await Http.GetFromJsonAsync<PortfolioAggregate>($"/Portfolio/GetRandomPortfolios?sampleSize={Samples}");
         }
         catch (Exception e)
         {
             Console.WriteLine($"There was an error! {e.Message}");
         }
 
+        IsLoading = false;
     }
 }
