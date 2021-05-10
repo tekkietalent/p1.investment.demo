@@ -2,7 +2,7 @@
 
 For the purposes of this exercise I have implemented an N-Tier approach for the architecture with a separate Unit Tests project that has some basic tests for each layer.
 
-I was interested in having a play with Microsofts new [Blazor] (https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor) technology (think Angular but for dot net developers) therefore a very basic UI has been built using that.
+I was interested in having a play with Microsofts new [Blazor] (https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor) technology (think Angular but for dot net developers) therefore a very basic UI has been built using that for the purposes of this exercise.
 
 Dependency Injection is used to inject the Business Logic Service into the Web API project Controller layer, and the Repository into the Service Layer, and the HttpClient access into the Repository layer, following Clean Architecture principles with the dependencies only flowing one way.
 
@@ -12,7 +12,11 @@ For simplicity, the domain objects are simply shared across layers.
 
 To run the solution locally, just clone down the repo and use the Develop branch.
 
-Load the solution into Visual Studio 2019 and run the solution. You will get the APi project launch and a Swagger explorer window open where you can directly call the api, and the UI window which demonstrates a decoupled UI that can also be used to query the UI.
+Load the solution into Visual Studio 2019 and run the solution. 
+
+You will get two browser window:
+	the APi project with a Swagger explorer window where you can directly execute the api;
+	and the UI window which demonstrates a decoupled UI that can also be used to query the API above.
 
 #To Do
 
