@@ -23,3 +23,12 @@ You will get two browser window:
 Refine the query to the service so we don't pull back all of the portfolios each time, or cache them.
 
 Write some more unit tests to improve coverage.
+
+#For Cloud [Azure]
+
+Add App Insights
+
+Inject Logging into each layer [ILogger] so we can log errors / info etc
+
+Look at Containerizing the API [Docker] so when we look at pipeline deployment to Azure AKS / Container Registry down the line
+
