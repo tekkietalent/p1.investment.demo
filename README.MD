@@ -32,3 +32,8 @@ Inject Logging into each layer [ILogger] so we can log errors / info etc
 
 Look at Containerizing the API [Docker] so when we look at pipeline deployment to Azure AKS / Container Registry down the line
 
+Set up Infra - Azure Repository, Aure Devops [Azure Pipelines] to run build and tests, and have integration with Azure Boards for task management
+
+Set up Sprint Management for Task and Team
+
+Etc.. etc...
